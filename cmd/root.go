@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"os/exec"
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
@@ -37,8 +38,17 @@ func (i item) FilterValue() string {
 }
 
 func editor(path string) tea.Cmd {
-	fmt.Println("Editor")
-	return nil
+	ed := os.Getenv("EDITOR")
+	if ed == "" {
+		ed = "vim"
+	}
+
+	c := exec.Command("bash", "-c", "clear && cd "+path+" && "+ed)
+	c.Stdin = os.Stdin
+	c.Stdout = os.Stdout
+	c.Stderr = os.Stderr
+
+	return tea.ExecProcess(c, func(err error) tea.Msg { return editorFinishedMessage{err} })
 }
 
 func (m model) Init() tea.Cmd {
@@ -53,8 +63,15 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case tea.KeyMsg:
 		switch msg.String() {
-		case "q", "escape":
+		case "q", "escape", "h":
 			return m, tea.Quit
+		case " ", "enter", "l":
+			i, ok := m.list.SelectedItem().(item)
+			if ok {
+				m.choice = string(i.title)
+				m.description = string(i.description)
+			}
+			return m, editor(m.description)
 		}
 	}
 	var cmd tea.Cmd
