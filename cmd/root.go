@@ -118,92 +118,104 @@ var (
 		Short: "Swift Configurations & Projects File Navigator",
 		Long:  `Switch smoothly between different file configurations and projects without ever needing to cd into each individual file location`,
 		Run: func(cmd *cobra.Command, args []string) {
-			projects := []list.Item{
-				item{title: "nvim", description: "$HOME/.config/nvim"},
-				item{
-					title:       "flamingo",
-					description: "$HOME/Documents/go/src/github.com/Pheon-Dev/flamingo",
-				},
-				item{title: "dwm", description: "$HOME/.config/arco-dwm"},
-				item{title: "zsh", description: "$HOME/.config/zsh"},
-				item{title: "dmenu", description: "$HOME/.config/dmenu"},
-				item{title: "btop", description: "$HOME/.config/btop"},
-				item{title: "tmux", description: "$HOME/.tmux"},
-				item{
-					title:       "st Simple Terminal",
-					description: "$HOME/.config/arco-st",
-				},
-				item{
-					title:       "lazygit",
-					description: "$HOME/.config/lazygit",
-				},
-				item{
-					title:       "ranger",
-					description: "$HOME/.config/ranger",
-				},
-				item{
-					title:       "fm file manager",
-					description: "$HOME/.config/fm",
-				},
-				item{title: "moc", description: ".moc"},
-				item{
-					title:       "p app",
-					description: "$HOME/Documents/go/src/github.com/Pheon-Dev/p",
-				},
-				item{
-					title:       "neovim",
-					description: "$HOME/Documents/Neovim",
-				},
-				item{
-					title:       "class",
-					description: "$HOME/Documents/CMT",
-				},
-				item{
-					title:       "go",
-					description: "$HOME/Documents/go/src/github.com/Pheon-Dev",
-				},
-				item{
-					title:       "bubbletea",
-					description: "$HOME/Documents/go/git/bubbletea/examples",
-				},
-				item{
-					title:       "go apps",
-					description: "$HOME/Documents/go/git",
-				},
-				item{
-					title:       "destiny",
-					description: "$HOME/Documents/NextJS/App/destiny-credit",
-				},
-				item{
-					title:       "devlen",
-					description: "$HOME/Documents/NextJS/App/devlen",
-				},
-				item{
-					title:       "typescript",
-					description: "$HOME/Documents/NextJS/App",
-				},
-			}
-
 			vp := viper.New()
-			vp.SetConfigName("config")
-			vp.SetConfigType("yaml")
-			vp.AddConfigPath("$HOME/.config/flamingo")
+			if cfgFile != "" {
+				vp.SetConfigFile(cfgFile)
+			} else {
+				projects := []list.Item{
+					item{title: "nvim", description: "$HOME/.config/nvim"},
+					item{
+						title:       "flamingo",
+						description: "$HOME/Documents/go/src/github.com/Pheon-Dev/flamingo",
+					},
+					item{title: "dwm", description: "$HOME/.config/arco-dwm"},
+					item{title: "zsh", description: "$HOME/.config/zsh"},
+					item{title: "dmenu", description: "$HOME/.config/dmenu"},
+					item{title: "btop", description: "$HOME/.config/btop"},
+					item{title: "tmux", description: "$HOME/.tmux"},
+					item{
+						title:       "st Simple Terminal",
+						description: "$HOME/.config/arco-st",
+					},
+					item{
+						title:       "lazygit",
+						description: "$HOME/.config/lazygit",
+					},
+					item{
+						title:       "ranger",
+						description: "$HOME/.config/ranger",
+					},
+					item{
+						title:       "fm file manager",
+						description: "$HOME/.config/fm",
+					},
+					item{title: "moc", description: ".moc"},
+					item{
+						title:       "p app",
+						description: "$HOME/Documents/go/src/github.com/Pheon-Dev/p",
+					},
+					item{
+						title:       "neovim",
+						description: "$HOME/Documents/Neovim",
+					},
+					item{
+						title:       "class",
+						description: "$HOME/Documents/CMT",
+					},
+					item{
+						title:       "go",
+						description: "$HOME/Documents/go/src/github.com/Pheon-Dev",
+					},
+					item{
+						title:       "bubbletea",
+						description: "$HOME/Documents/go/git/bubbletea/examples",
+					},
+					item{
+						title:       "go apps",
+						description: "$HOME/Documents/go/git",
+					},
+					item{
+						title:       "destiny",
+						description: "$HOME/Documents/NextJS/App/destiny-credit",
+					},
+					item{
+						title:       "devlen",
+						description: "$HOME/Documents/NextJS/App/devlen",
+					},
+					item{
+						title:       "typescript",
+						description: "$HOME/Documents/NextJS/App",
+					},
+				}
 
-			err := vp.ReadInConfig()
-			if err != nil {
-				fmt.Println(err)
-			}
+				vp.SetConfigName("config")
+				vp.SetConfigType("yaml")
+				home, home_err := os.UserHomeDir()
+				cobra.CheckErr(home_err)
 
-			title := vp.GetString("title")
+				vp.AddConfigPath(home + "/.config/flamingo")
 
-			l := list.New(projects, list.NewDefaultDelegate(), 0, 0)
-			l.Title = title
+				err := vp.ReadInConfig()
+				if err != nil {
+					fmt.Println(err)
+				}
 
-			m := model{list: l}
+				title := vp.GetString("title")
 
-			if _, err := tea.NewProgram(m, tea.WithAltScreen()).Run(); err != nil {
-				fmt.Println("Error Running Program: ", err)
-				os.Exit(1)
+				l := list.New(projects, list.NewDefaultDelegate(), 0, 0)
+				l.Title = title
+
+				m := model{list: l}
+				vp.AutomaticEnv()
+
+				if vp_err := viper.ReadInConfig(); vp_err != nil {
+					fmt.Println("Using config file: ", vp.ConfigFileUsed())
+				}
+
+				if _, err := tea.NewProgram(m, tea.WithAltScreen()).Run(); err != nil {
+					fmt.Println("Error Running Program: ", err)
+					os.Exit(1)
+				}
 			}
 		},
 	}
