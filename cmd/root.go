@@ -100,7 +100,7 @@ func (m model) init() {
 	viper.SetDefault("author", "Pheon-Dev <devpheon@gmail.com>")
 	viper.SetDefault("license", "MIT")
 
-	rootCmd.AddCommand(versionCmd)
+	// rootCmd.AddCommand(versionCmd)
 }
 
 var (
@@ -184,7 +184,21 @@ var (
 				},
 			}
 
+			vp := viper.New()
+			vp.SetConfigName("config")
+			vp.SetConfigType("yaml")
+			vp.AddConfigPath("$HOME/.config/flamingo")
+
+			err := vp.ReadInConfig()
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			title := vp.GetString("title")
+
 			l := list.New(projects, list.NewDefaultDelegate(), 0, 0)
+			l.Title = title
+
 			m := model{list: l}
 
 			if _, err := tea.NewProgram(m, tea.WithAltScreen()).Run(); err != nil {
@@ -217,13 +231,4 @@ func initConfig() {
 		}
 
 	}
-}
-
-var versionCmd = &cobra.Command{
-	Use:   "version",
-	Short: "Print flamingo version",
-	Long:  `This is the latest version of flamingo`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Flamingo version: v0.0.1")
-	},
 }
