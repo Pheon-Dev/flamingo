@@ -12,6 +12,16 @@ import (
 	"github.com/spf13/viper"
 )
 
+var (
+	docStyle      = lipgloss.NewStyle().Padding(1, 2)
+	quitTextStyle = lipgloss.NewStyle().Padding(1, 2)
+	itemStyle     = lipgloss.NewStyle().PaddingLeft(1)
+	titleStyle    = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("#21222c")).
+			Background(lipgloss.Color("#ff79c6")).
+			Padding(0, 1)
+)
+
 type item struct {
 	title       string
 	description string
@@ -104,118 +114,112 @@ func (m model) init() {
 }
 
 var (
-	cfgFile       string
-	userLicense   string
-	docStyle      = lipgloss.NewStyle().Padding(1, 2)
-	quitTextStyle = lipgloss.NewStyle().Padding(1, 2)
-	itemStyle     = lipgloss.NewStyle().PaddingLeft(1)
-	titleStyle    = lipgloss.NewStyle().
-			Foreground(lipgloss.Color("#c0caf5")).
-			Background(lipgloss.Color("#ff79c6")).
-			Padding(0, 1)
-	rootCmd = &cobra.Command{
+	cfgFile     string
+	userLicense string
+	rootCmd     = &cobra.Command{
 		Use:   "flamingo",
 		Short: "Swift Configurations & Projects File Navigator",
 		Long:  `Switch smoothly between different file configurations and projects without ever needing to cd into each individual file location`,
 		Run: func(cmd *cobra.Command, args []string) {
+			projects := []list.Item{
+				item{title: "nvim", description: "$HOME/.config/nvim"},
+				item{
+					title:       "flamingo",
+					description: "$HOME/Documents/go/src/github.com/Pheon-Dev/flamingo",
+				},
+				item{
+					title:       "hms",
+					description: "$HOME/Documents/NextJS/App/hms",
+				},
+				item{title: "dwm", description: "$HOME/.config/arco-dwm"},
+				item{title: "zsh", description: "$HOME/.config/zsh"},
+				item{title: "dmenu", description: "$HOME/.config/dmenu"},
+				item{title: "btop", description: "$HOME/.config/btop"},
+				item{title: "tmux", description: "$HOME/.tmux"},
+				item{
+					title:       "st Simple Terminal",
+					description: "$HOME/.config/arco-st",
+				},
+				item{
+					title:       "lazygit",
+					description: "$HOME/.config/lazygit",
+				},
+				item{
+					title:       "ranger",
+					description: "$HOME/.config/ranger",
+				},
+				item{
+					title:       "fm file manager",
+					description: "$HOME/.config/fm",
+				},
+				item{title: "moc", description: ".moc"},
+				item{
+					title:       "p app",
+					description: "$HOME/Documents/go/src/github.com/Pheon-Dev/p",
+				},
+				item{
+					title:       "neovim",
+					description: "$HOME/Documents/Neovim",
+				},
+				item{
+					title:       "class",
+					description: "$HOME/Documents/CMT",
+				},
+				item{
+					title:       "go",
+					description: "$HOME/Documents/go/src/github.com/Pheon-Dev",
+				},
+				item{
+					title:       "bubbletea",
+					description: "$HOME/Documents/go/git/bubbletea/examples",
+				},
+				item{
+					title:       "go apps",
+					description: "$HOME/Documents/go/git",
+				},
+				item{
+					title:       "destiny",
+					description: "$HOME/Documents/NextJS/App/destiny-credit",
+				},
+				item{
+					title:       "devlen",
+					description: "$HOME/Documents/NextJS/App/devlen",
+				},
+				item{
+					title:       "typescript",
+					description: "$HOME/Documents/NextJS/App",
+				},
+			}
+
 			vp := viper.New()
-			if cfgFile != "" {
-				vp.SetConfigFile(cfgFile)
-			} else {
-				projects := []list.Item{
-					item{title: "nvim", description: "$HOME/.config/nvim"},
-					item{
-						title:       "flamingo",
-						description: "$HOME/Documents/go/src/github.com/Pheon-Dev/flamingo",
-					},
-					item{title: "dwm", description: "$HOME/.config/arco-dwm"},
-					item{title: "zsh", description: "$HOME/.config/zsh"},
-					item{title: "dmenu", description: "$HOME/.config/dmenu"},
-					item{title: "btop", description: "$HOME/.config/btop"},
-					item{title: "tmux", description: "$HOME/.tmux"},
-					item{
-						title:       "st Simple Terminal",
-						description: "$HOME/.config/arco-st",
-					},
-					item{
-						title:       "lazygit",
-						description: "$HOME/.config/lazygit",
-					},
-					item{
-						title:       "ranger",
-						description: "$HOME/.config/ranger",
-					},
-					item{
-						title:       "fm file manager",
-						description: "$HOME/.config/fm",
-					},
-					item{title: "moc", description: ".moc"},
-					item{
-						title:       "p app",
-						description: "$HOME/Documents/go/src/github.com/Pheon-Dev/p",
-					},
-					item{
-						title:       "neovim",
-						description: "$HOME/Documents/Neovim",
-					},
-					item{
-						title:       "class",
-						description: "$HOME/Documents/CMT",
-					},
-					item{
-						title:       "go",
-						description: "$HOME/Documents/go/src/github.com/Pheon-Dev",
-					},
-					item{
-						title:       "bubbletea",
-						description: "$HOME/Documents/go/git/bubbletea/examples",
-					},
-					item{
-						title:       "go apps",
-						description: "$HOME/Documents/go/git",
-					},
-					item{
-						title:       "destiny",
-						description: "$HOME/Documents/NextJS/App/destiny-credit",
-					},
-					item{
-						title:       "devlen",
-						description: "$HOME/Documents/NextJS/App/devlen",
-					},
-					item{
-						title:       "typescript",
-						description: "$HOME/Documents/NextJS/App",
-					},
-				}
+			vp.SetConfigName("config")
+			vp.SetConfigType("yaml")
+			home, home_err := os.UserHomeDir()
+			cobra.CheckErr(home_err)
 
-				vp.SetConfigName("config")
-				vp.SetConfigType("yaml")
-				home, home_err := os.UserHomeDir()
-				cobra.CheckErr(home_err)
+			vp.AddConfigPath(home + "/.config/flamingo")
 
-				vp.AddConfigPath(home + "/.config/flamingo")
+			err := vp.ReadInConfig()
+			if err != nil {
+				fmt.Println(err)
+			}
 
-				err := vp.ReadInConfig()
-				if err != nil {
-					fmt.Println(err)
-				}
+			title := vp.GetString("title")
+			statusbar := vp.GetBool("status-bar")
+			filtering := vp.GetBool("filtering")
+			// prjcts := vp.Get("projects")
 
-				title := vp.GetString("title")
+			l := list.New(projects, list.NewDefaultDelegate(), 0, 0)
+			l.SetShowStatusBar(statusbar)
+			l.SetFilteringEnabled(filtering)
+			l.Styles.Title = titleStyle
+			l.Title = title
 
-				l := list.New(projects, list.NewDefaultDelegate(), 0, 0)
-				l.Title = title
+			m := model{list: l}
 
-				m := model{list: l}
-				vp.AutomaticEnv()
-
-				if vp_err := viper.ReadInConfig(); vp_err != nil {
-					fmt.Println("Using config file: ", vp.ConfigFileUsed())
-				}
-
-				if _, err := tea.NewProgram(m, tea.WithAltScreen()).Run(); err != nil {
-					fmt.Println("Error Running Program: ", err)
-					os.Exit(1)
-				}
+			if _, err := tea.NewProgram(m, tea.WithAltScreen()).Run(); err != nil {
+				fmt.Println("Error Running Program: ", err)
+				os.Exit(1)
 			}
 		},
 	}
