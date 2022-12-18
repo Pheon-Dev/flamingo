@@ -47,6 +47,15 @@ func (i item) FilterValue() string {
 	return i.title
 }
 
+func terminalPopup(path string) tea.Cmd {
+	c := exec.Command("bash", "-c", "tmux popup")
+	c.Stdin = os.Stdin
+	c.Stdout = os.Stdout
+	c.Stderr = os.Stderr
+
+	return tea.ExecProcess(c, func(err error) tea.Msg { return editorFinishedMessage{err} })
+}
+
 func editor(path string) tea.Cmd {
 	ed := os.Getenv("EDITOR")
 	if ed == "" {
@@ -75,6 +84,13 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "q", "escape", "h":
 			return m, tea.Quit
+		case "`", "t":
+			i, ok := m.list.SelectedItem().(item)
+			if ok {
+				m.choice = string(i.title)
+				m.description = string(i.description)
+			}
+			return m, terminalPopup(m.description)
 		case " ", "enter", "l":
 			i, ok := m.list.SelectedItem().(item)
 			if ok {
@@ -129,7 +145,11 @@ var (
 				},
 				item{
 					title:       "hms",
-					description: "$HOME/Documents/NextJS/App/hms",
+					description: "$HOME/Documents/NextJS/App/devlen/apps/hms",
+				},
+				item{
+					title:       "devlen",
+					description: "$HOME/Documents/NextJS/App/devlen/apps/devlen",
 				},
 				item{title: "dwm", description: "$HOME/.config/arco-dwm"},
 				item{title: "zsh", description: "$HOME/.config/zsh"},
@@ -180,10 +200,6 @@ var (
 				item{
 					title:       "destiny",
 					description: "$HOME/Documents/NextJS/App/destiny-credit",
-				},
-				item{
-					title:       "devlen",
-					description: "$HOME/Documents/NextJS/App/devlen",
 				},
 				item{
 					title:       "typescript",
