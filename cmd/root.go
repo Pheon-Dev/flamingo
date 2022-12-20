@@ -84,7 +84,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "q", "escape", "h":
 			return m, tea.Quit
-		case "`", "t":
+		case "`":
 			return m, terminalPopup()
 		case " ", "enter", "l":
 			i, ok := m.list.SelectedItem().(item)
