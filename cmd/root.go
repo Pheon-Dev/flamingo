@@ -83,6 +83,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "q", "escape", "h":
+			tea.ClearScreen()
 			return m, tea.Quit
 		case "`":
 			return m, terminalPopup()
@@ -146,6 +147,14 @@ var (
 					title:       "devlen",
 					description: "$HOME/Documents/NextJS/App/devlen/apps/devlen",
 				},
+				item{
+					title:       "hornet",
+					description: "$HOME/Documents/go/src/github.com/Pheon-Dev/hornet",
+				},
+				item{
+					title:       "zap",
+					description: "$HOME/Documents/go/src/github.com/Pheon-Dev/zap-go",
+				},
 				item{title: "dwm", description: "$HOME/.config/arco-dwm"},
 				item{title: "zsh", description: "$HOME/.config/zsh"},
 				item{title: "dmenu", description: "$HOME/.config/dmenu"},
@@ -205,8 +214,8 @@ var (
 			vp := viper.New()
 			vp.SetConfigName("config")
 			vp.SetConfigType("yaml")
-			home, home_err := os.UserHomeDir()
-			cobra.CheckErr(home_err)
+			home, homeErr := os.UserHomeDir()
+			cobra.CheckErr(homeErr)
 
 			vp.AddConfigPath(home + "/.config/flamingo")
 
