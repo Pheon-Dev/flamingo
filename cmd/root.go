@@ -135,6 +135,7 @@ var (
 		Run: func(cmd *cobra.Command, args []string) {
 			projects := []list.Item{
 				item{title: "nvim", description: "$HOME/.config/nvim"},
+				item{title: "zellij", description: "$HOME/.config/zellij"},
 				item{
 					title:       "flamingo",
 					description: "$HOME/Documents/go/src/github.com/Pheon-Dev/flamingo",
@@ -153,9 +154,10 @@ var (
 				},
 				item{
 					title:       "zap",
-					description: "$HOME/Documents/go/src/github.com/Pheon-Dev/zap-go",
+					description: "$HOME/Documents/go/src/github.com/Pheon-Dev/zap",
 				},
 				item{title: "dwm", description: "$HOME/.config/arco-dwm"},
+				item{title: "dwmbar", description: "$HOME/.config/dwmbar"},
 				item{title: "zsh", description: "$HOME/.config/zsh"},
 				item{title: "dmenu", description: "$HOME/.config/dmenu"},
 				item{title: "btop", description: "$HOME/.config/btop"},
@@ -227,7 +229,7 @@ var (
 			title := vp.GetString("title")
 			statusbar := vp.GetBool("status-bar")
 			filtering := vp.GetBool("filtering")
-			// prjcts := vp.Get("projects")
+			// workspace := vp.Get("projects")
 
 			l := list.New(projects, list.NewDefaultDelegate(), 0, 0)
 			l.SetShowStatusBar(statusbar)
