@@ -205,6 +205,10 @@ var (
 				// 	description: "$HOME/Documents/go/git",
 				// },
 				item{
+					title:       "m-pesa",
+					description: "$HOME/Documents/NextJS/App/m-pesa",
+				},
+				item{
 					title:       "destiny",
 					description: "$HOME/Documents/NextJS/App/destiny-credit",
 				},
