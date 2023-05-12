@@ -137,6 +137,7 @@ var (
 				item{title: "nvim", description: "$HOME/.config/nvim"},
 				item{title: "zellij", description: "$HOME/.config/zellij"},
 				// item{title: "helix", description: "$HOME/.config/helix"},
+				item{title: "alacritty", description: "$HOME/.config/alacritty"},
 				item{
 					title:       "flamingo",
 					description: "$HOME/Documents/go/src/github.com/Pheon-Dev/flamingo",
@@ -204,6 +205,14 @@ var (
 				// 	title:       "go apps",
 				// 	description: "$HOME/Documents/go/git",
 				// },
+				item{
+					title:       "starship",
+					description: "$HOME/.config/starship",
+				},
+				item{
+					title:       "rust",
+					description: "$HOME/Documents/Rust/book",
+				},
 				item{
 					title:       "m-pesa",
 					description: "$HOME/Documents/NextJS/App/m-pesa",
