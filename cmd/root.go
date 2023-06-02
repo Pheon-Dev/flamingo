@@ -23,7 +23,8 @@ var (
 )
 
 type item struct {
-	title       string
+	title string
+
 	description string
 }
 
@@ -44,6 +45,7 @@ func (i item) Description() string {
 }
 
 func (i item) FilterValue() string {
+
 	return i.title
 }
 
@@ -58,6 +60,7 @@ func terminalPopup() tea.Cmd {
 
 func editor(path string) tea.Cmd {
 	ed := os.Getenv("EDITOR")
+
 	if ed == "" {
 		ed = "vim"
 	}
@@ -136,42 +139,24 @@ var (
 			projects := []list.Item{
 				item{title: "nvim", description: "$HOME/.config/nvim"},
 				item{title: "zellij", description: "$HOME/.config/zellij"},
+				item{title: "pigeon", description: "$HOME/Documents/Neovim/pigeon"},
+				item{title: "manta-api", description: "$HOME/Documents/Rust/manta-api"},
+				item{title: "manta-wallet", description: "$HOME/Documents/Rust/manta-wallet"},
 				// item{title: "helix", description: "$HOME/.config/helix"},
 				item{title: "alacritty", description: "$HOME/.config/alacritty"},
-				item{
-					title:       "flamingo",
-					description: "$HOME/Documents/go/src/github.com/Pheon-Dev/flamingo",
-				},
-				// item{
-				// 	title:       "hms",
-				// 	description: "$HOME/Documents/NextJS/App/devlen/apps/hms",
-				// },
-				// item{
-				// 	title:       "devlen",
-				// 	description: "$HOME/Documents/NextJS/App/devlen/apps/devlen",
-				// },
-				// item{
-				// 	title:       "hornet",
-				// 	description: "$HOME/Documents/go/src/github.com/Pheon-Dev/hornet",
-				// },
-				// item{
-				// 	title:       "zap",
-				// 	description: "$HOME/Documents/go/src/github.com/Pheon-Dev/zap",
-				// },
+				item{title: "flamingo", description: "$HOME/Documents/go/src/github.com/Pheon-Dev/flamingo"},
+				// item{title:       "hms", description: "$HOME/Documents/NextJS/App/devlen/apps/hms",},
+				// item{title:       "devlen", description: "$HOME/Documents/NextJS/App/devlen/apps/devlen",},
+				// item{title:       "hornet", description: "$HOME/Documents/go/src/github.com/Pheon-Dev/hornet",},
+				// item{title:       "zap", description: "$HOME/Documents/go/src/github.com/Pheon-Dev/zap",},
 				item{title: "dwm", description: "$HOME/.config/arco-dwm"},
-				item{
-					title:       "st Simple Terminal",
-					description: "$HOME/.config/arco-st",
-				},
+				item{title: "st Simple Terminal", description: "$HOME/.config/arco-st"},
 				item{title: "dwmbar", description: "$HOME/.config/dwmbar"},
 				item{title: "zsh", description: "$HOME/.config/zsh"},
 				item{title: "dmenu", description: "$HOME/.config/dmenu"},
 				item{title: "btop", description: "$HOME/.config/btop"},
 				// item{title: "tmux", description: "$HOME/.tmux"},
-				item{
-					title:       "lazygit",
-					description: "$HOME/.config/lazygit",
-				},
+				item{title: "lazygit", description: "$HOME/.config/lazygit"},
 				// item{
 				// 	title:       "ranger",
 				// 	description: "$HOME/.config/ranger",
@@ -205,26 +190,11 @@ var (
 				// 	title:       "go apps",
 				// 	description: "$HOME/Documents/go/git",
 				// },
-				item{
-					title:       "starship",
-					description: "$HOME/.config/starship",
-				},
-				item{
-					title:       "rust",
-					description: "$HOME/Documents/Rust/book",
-				},
-				item{
-					title:       "m-pesa",
-					description: "$HOME/Documents/NextJS/App/m-pesa",
-				},
-				item{
-					title:       "destiny",
-					description: "$HOME/Documents/NextJS/App/destiny-credit",
-				},
-				// item{
-				// 	title:       "typescript",
-				// 	description: "$HOME/Documents/NextJS/App",
-				// },
+				item{title: "starship", description: "$HOME/.config/starship"},
+				item{title: "rust", description: "$HOME/Documents/Rust/book"},
+				item{title: "m-pesa", description: "$HOME/Documents/NextJS/App/m-pesa"},
+				item{title: "destiny", description: "$HOME/Documents/NextJS/App/destiny-credit"},
+				// item{title:       "typescript", description: "$HOME/Documents/NextJS/App",},
 			}
 
 			vp := viper.New()
