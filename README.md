@@ -44,6 +44,7 @@ title: Flamingo
 #!/usr/bin/env bash
 
 # Add this file to your ~/.zshrc, ~/.bashrc or ~/.somerc file
+# or just run it from you terminal
 export EDITOR=nvim
 
 ```
