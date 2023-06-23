@@ -45,7 +45,7 @@ export EDITOR=nvim
 flamingo
 ```
 
-#### Usage
+#### Commands
 - Use `j` and `k` for vertical navigation
 - Use `h` , `q` or `escape` to quit
 - Use `l` , `enter|return` or `space` to select
