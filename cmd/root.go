@@ -49,14 +49,6 @@ func (i item) FilterValue() string {
 	return i.title
 }
 
-func terminalPopup() tea.Cmd {
-	c := exec.Command("bash", "-c", "tmux popup")
-	c.Stdin = os.Stdin
-	c.Stdout = os.Stdout
-	c.Stderr = os.Stderr
-
-	return tea.ExecProcess(c, func(err error) tea.Msg { return editorFinishedMessage{err} })
-}
 
 func editor(path string) tea.Cmd {
 	ed := os.Getenv("EDITOR")
@@ -88,8 +80,6 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "q", "escape", "h":
 			tea.ClearScreen()
 			return m, tea.Quit
-		case "`":
-			return m, terminalPopup()
 		case " ", "enter", "l":
 			i, ok := m.list.SelectedItem().(item)
 			if ok {

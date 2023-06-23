@@ -6,21 +6,17 @@
 ```
 go get github.com/Pheon-Dev/flamingo
 ```
+
 ## Configuration file
 
 ```bash
 ~/.config/flamingo/config.yaml
 ```
-
-## Usage
-> Just run:
-```bash
-flamingo
-```
-### Example
+#### Example
 
 ```yaml
 ---
+# ~/.config/flamingo/config.yaml
 filtering: true
 projects:
   - title: nvim
@@ -32,3 +28,27 @@ projects:
 status-bar: true
 title: Flamingo
 ```
+- Each project has to have a title and a path description
+
+## Usage
+- First of all make sure you have set your `$EDITOR` environment variable
+```bash
+#!/usr/bin/env bash
+
+# Add this file to your ~/.zshrc, ~/.bashrc or ~/.somerc file
+export EDITOR=nvim
+
+```
+
+- Then just run:
+```bash
+flamingo
+```
+
+#### Usage
+- Use `j` and `k` for vertical navigation
+- Use `h` , `q` or `escape` to quit
+- Use `l` , `enter|return` or `space` to select
+
+## PRs and Issues
+- Contributions from the community are always welcome
