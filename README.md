@@ -5,7 +5,7 @@
 ## Configuration file
 
 ```bash
-~/.config/p/config.yaml
+~/.config/flamingo/config.yaml
 ```
 
 ### Example
@@ -16,10 +16,8 @@ filtering: true
 projects:
   - title: nvim
     description: ~/.config/nvim
-    path: .config/nvim
   - title: dwm
-    description: ~/.config/arco-dwm
-    path: .config/arco-dwm
+    description: ~/.config/dwm
 status-bar: true
 title: Flamingo
 ```
