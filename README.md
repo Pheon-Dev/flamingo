@@ -1,6 +1,6 @@
 # Quick Projects & Configuration Files Navigator
 
-<!-- ![p](https://github.com/Pheon-Dev/flamingo/blob/main/flamin.gif) -->
+![Flamingo](/flamingo.png)
 
 ## Installation
 ```
@@ -12,6 +12,11 @@ go get github.com/Pheon-Dev/flamingo
 ~/.config/flamingo/config.yaml
 ```
 
+## Usage
+> Just run:
+```bash
+flamingo
+```
 ### Example
 
 ```yaml
