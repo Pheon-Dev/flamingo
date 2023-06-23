@@ -2,6 +2,10 @@
 
 <!-- ![p](https://github.com/Pheon-Dev/flamingo/blob/main/flamin.gif) -->
 
+## Installation
+```
+go get github.com/Pheon-Dev/flamingo
+```
 ## Configuration file
 
 ```bash
