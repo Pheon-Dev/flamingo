@@ -136,69 +136,6 @@ var (
 		Short: "Swift Configurations & Projects File Navigator",
 		Long:  `Switch smoothly between different file configurations and projects without ever needing to cd into each individual file location`,
 		Run: func(cmd *cobra.Command, args []string) {
-			projects := []list.Item{
-				item{title: "  nvim", description: "$HOME/.config/nvim"},
-				item{title: "  zellij", description: "$HOME/.config/zellij"},
-				// item{title: "pigeon", description: "$HOME/Documents/Neovim/pigeon"},
-				// item{title: "manta-api", description: "$HOME/Documents/Rust/manta-api"},
-				// item{title: "manta-wallet", description: "$HOME/Documents/Rust/manta-wallet"},
-				// item{title: "helix", description: "$HOME/.config/helix"},
-				item{title: "  alacritty", description: "$HOME/.config/alacritty"},
-				item{title: "  joshuto", description: "$HOME/.config/joshuto"},
-				item{title: "  flamingo", description: "$HOME/go/src/github.com/Pheon-Dev/flamingo"},
-				// item{title:       "hms", description: "$HOME/Documents/NextJS/App/devlen/apps/hms",},
-				// item{title:       "devlen", description: "$HOME/Documents/NextJS/App/devlen/apps/devlen",},
-				// item{title:       "hornet", description: "$HOME/Documents/go/src/github.com/Pheon-Dev/hornet",},
-				// item{title:       "zap", description: "$HOME/Documents/go/src/github.com/Pheon-Dev/zap",},
-				item{title: "  dwm", description: "$HOME/.config/dwm"},
-				// item{title: "st Simple Terminal", description: "$HOME/.config/arco-st"},
-				// item{title: "dwmbar", description: "$HOME/.config/dwmbar"},
-				item{title: "  zsh", description: "$HOME/.config/zsh"},
-				// item{title: "dmenu", description: "$HOME/.config/dmenu"},
-				item{title: "  btop", description: "$HOME/.config/btop"},
-				item{title: "  picom", description: "$HOME/.config/picom"},
-				item{title: "  rofi", description: "$HOME/.config/rofi"},
-				// item{title: "tmux", description: "$HOME/.tmux"},
-				item{title: "  lazygit", description: "$HOME/.config/lazygit"},
-				// item{
-				// 	title:       "ranger",
-				// 	description: "$HOME/.config/ranger",
-				// },
-				// item{
-				// 	title:       "fm file manager",
-				// 	description: "$HOME/.config/fm",
-				// },
-				// item{title: "moc", description: ".moc"},
-				// item{
-				// 	title:       "p app",
-				// 	description: "$HOME/Documents/go/src/github.com/Pheon-Dev/p",
-				// },
-				// item{
-				// 	title:       "neovim",
-				// 	description: "$HOME/Documents/Neovim",
-				// },
-				// item{
-				// 	title:       "class",
-				// 	description: "$HOME/Documents/CMT",
-				// },
-				// item{
-				// 	title:       "go",
-				// 	description: "$HOME/Documents/go/src/github.com/Pheon-Dev",
-				// },
-				// item{
-				// 	title:       "bubbletea",
-				// 	description: "$HOME/Documents/go/git/bubbletea/examples",
-				// },
-				// item{
-				// 	title:       "go apps",
-				// 	description: "$HOME/Documents/go/git",
-				// },
-				item{title: "  starship", description: "$HOME/.config/starship"},
-				// item{title: "rust", description: "$HOME/Documents/Rust/book"},
-				// item{title: "m-pesa", description: "$HOME/Documents/NextJS/App/m-pesa"},
-				// item{title: "destiny", description: "$HOME/Documents/NextJS/App/destiny-credit"},
-				// item{title:       "typescript", description: "$HOME/Documents/NextJS/App",},
-			}
 
 			vp := viper.New()
 			vp.SetConfigName("config")
@@ -216,7 +153,12 @@ var (
 			title := vp.GetString("title")
 			statusbar := vp.GetBool("status-bar")
 			filtering := vp.GetBool("filtering")
-			// workspace := vp.Get("projects")
+			prjcts := vp.Get("projects")
+
+			projects := []list.Item{}
+			for _, prjct := range prjcts.([]interface{}) {
+				projects = append(projects, item{title: string(prjct.(map[string]interface{})["title"].(string)), description: string(prjct.(map[string]interface{})["description"].(string))})
+			}
 
 			l := list.New(projects, list.NewDefaultDelegate(), 0, 0)
 			l.SetShowStatusBar(statusbar)
