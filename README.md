@@ -1,4 +1,10 @@
-# Quick Projects & Configuration Files Navigator
+# Flamingo
+Typing `cd ../path/to/project` every time you want to open a project or
+make a quick change to a project can be frustrating.
+What if you had a file manager of you frequented projects listed for you
+just as you exit one of your projects and all you can do is open your next 
+project or configuration file?
+Well Flamingo will help you do just that, enjoy!
 
 ![Flamingo](/flamingo.png)
 
@@ -19,12 +25,14 @@ go get github.com/Pheon-Dev/flamingo
 # ~/.config/flamingo/config.yaml
 filtering: true
 projects:
-  - title: nvim
+  - title:   nvim
     description: ~/.config/nvim # you can use ~/
-  - title: dwm
+  - title:   dwm
     description: $HOME/.config/dwm # or $HOME/
-  - title: dwm
+  - title:   alacritty
     description: /home/pheon-dev/.config/alacritty # or /
+  - title:   .zshrc
+    description: ~/.zshrc
 status-bar: true
 title: Flamingo
 ```
