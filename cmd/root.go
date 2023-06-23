@@ -57,7 +57,7 @@ func editor(path string) tea.Cmd {
 		ed = "vim"
 	}
 
-	c := exec.Command("bash", "-c", "clear && cd "+path+" && "+ed+" || "+ed+" "+path)
+	c := exec.Command("bash", "-c", "cd "+path+" && "+ed+" || "+ed+" "+path)
 	c.Stdin = os.Stdin
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
@@ -78,7 +78,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "q", "escape", "h":
-			tea.ClearScreen()
+			// tea.ClearScreen()
 			return m, tea.Quit
 		case " ", "enter", "l":
 			i, ok := m.list.SelectedItem().(item)
