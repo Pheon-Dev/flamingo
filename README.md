@@ -19,9 +19,11 @@ go get github.com/Pheon-Dev/flamingo
 filtering: true
 projects:
   - title: nvim
-    description: ~/.config/nvim
+    description: ~/.config/nvim # you can use ~/
   - title: dwm
-    description: ~/.config/dwm
+    description: $HOME/.config/dwm # or $HOME/
+  - title: dwm
+    description: /home/pheon-dev/.config/alacritty # or /
 status-bar: true
 title: Flamingo
 ```

@@ -1,30 +1,29 @@
 ---
 filtering: true
 projects:
-  # - { title: nvim, description: ~/.config/nvim, path: .config/nvim }
   - title:   nvim
-    description: $HOME/.config/nvim
+    description: ~/.config/nvim
   - title:   zellij
-    description: $HOME/.config/zellij
+    description: ~/.config/zellij
   - title:   alacritty
-    description: $HOME/.config/alacritty
+    description: ~/.config/alacritty
   - title:   dwm
-    description: $HOME/.config/dwm
+    description: ~/.config/dwm
   - title:   joshuto
-    description: $HOME/.config/joshuto
+    description: ~/.config/joshuto
   - title:   flamingo (config)
-    description: $HOME/.config/flamingo
+    description: ~/.config/flamingo
   - title:   flamingo (dev)
-    description: $HOME/go/src/github.com/Pheon-Dev/flamingo
+    description: ~/go/src/github.com/Pheon-Dev/flamingo
   - title:   zsh
-    description: $HOME/.config/zsh
+    description: ~/.config/zsh
   - title:   lazygit
-    description: $HOME/.config/lazygit
+    description: ~/.config/lazygit
   - title:   btop
-    description: $HOME/.config/btop
+    description: ~/.config/btop
   - title:   rofi
-    description: $HOME/.config/rofi
+    description: ~/.config/rofi
   - title:   picom
-    description: $HOME/.config/picom
+    description: ~/.config/picom
 status-bar: true
 title: Flamingo
