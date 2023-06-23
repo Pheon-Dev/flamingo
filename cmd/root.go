@@ -57,7 +57,7 @@ func editor(path string) tea.Cmd {
 		ed = "vim"
 	}
 
-	c := exec.Command("bash", "-c", "clear && cd "+path+" && "+ed)
+	c := exec.Command("bash", "-c", "clear && cd "+path+" && "+ed+" || "+ed+" "+path)
 	c.Stdin = os.Stdin
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
