@@ -57,7 +57,7 @@ func editor(path string) tea.Cmd {
 		ed = "vim"
 	}
 
-	c := exec.Command("bash", "-c", "cd "+path+" && "+ed+" || "+ed+" "+path)
+	c := exec.Command("bash", "-c", "clear && cd "+path+" && "+ed+" || "+ed+" "+path)
 	c.Stdin = os.Stdin
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
@@ -143,11 +143,17 @@ var (
 			title := vp.GetString("title")
 			statusbar := vp.GetBool("status-bar")
 			filtering := vp.GetBool("filtering")
-			prjcts := vp.Get("projects")
+			ps := vp.Get("projects")
 
 			projects := []list.Item{}
-			for _, prjct := range prjcts.([]interface{}) {
-				projects = append(projects, item{title: string(prjct.(map[string]interface{})["title"].(string)), description: string(prjct.(map[string]interface{})["description"].(string))})
+			for _, p := range ps.([]interface{}) {
+				projects = append(
+          projects,
+          item{
+            title: string(p.(map[string]interface{})["title"].(string)),
+            description: string(p.(map[string]interface{})["description"].(string)),
+          },
+        )
 			}
 
 			l := list.New(projects, list.NewDefaultDelegate(), 0, 0)
