@@ -24,6 +24,11 @@ go get github.com/Pheon-Dev/flamingo
 ---
 # ~/.config/flamingo/config.yaml
 filtering: true
+status-bar: true
+title: Flamingo
+editor: $EDITOR # ensure to export your editor of choice e.g export EDITOR="nvim"
+flags: "--listen ~/.cache/nvim/server.pipe" # optional, you can leave it empty
+pre-run: "clear &&" # clear screen and run the editor
 projects:
   - title:   nvim
     description: ~/.config/nvim # you can use ~/
@@ -33,8 +38,6 @@ projects:
     description: /home/pheon-dev/.config/alacritty # or /
   - title:   .zshrc
     description: ~/.zshrc
-status-bar: true
-title: Flamingo
 ```
 - Each project has to have a title and a path description
 
@@ -58,6 +61,7 @@ flamingo
 - Use `j` and `k` for vertical navigation
 - Use `h` , `q` or `escape` to quit
 - Use `l` , `enter|return` or `space` to select
+- Use `/` to search
 
 ## PRs and Issues
 - Contributions from the community are always welcome

@@ -48,6 +48,7 @@ func (i item) FilterValue() string {
 }
 
 func editor(path string) tea.Cmd {
+	// ed := os.Getenv("EDITOR")
 	vp := viper.New()
 	vp.SetConfigName("config")
 	vp.SetConfigType("yaml")
@@ -63,13 +64,13 @@ func editor(path string) tea.Cmd {
 
 	flags := vp.GetString("flags")
   editor := vp.GetString("editor")
-	// editor = os.Getenv("EDITOR")
+  pre_run := vp.GetString("pre-run")
 
 	if editor == "" {
 		editor = "vim"
 	}
 
-	c := exec.Command("bash", "-c", "clear && cd "+path+" && "+editor+" "+flags+" || "+editor+" "+flags+" "+path)
+	c := exec.Command("bash", "-c", pre_run+" cd "+path+" 2>/dev/null && "+editor+" "+flags+" || "+editor+" "+flags+" "+path)
 	c.Stdin = os.Stdin
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
