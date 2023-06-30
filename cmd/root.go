@@ -47,8 +47,8 @@ func (i item) FilterValue() string {
 	return i.title
 }
 
-func editor(path string) tea.Cmd {
-	// ed := os.Getenv("EDITOR")
+func vip() *viper.Viper {
+
 	vp := viper.New()
 	vp.SetConfigName("config")
 	vp.SetConfigType("yaml")
@@ -62,9 +62,15 @@ func editor(path string) tea.Cmd {
 		fmt.Println(err)
 	}
 
+	return vp
+}
+
+func editor(path string) tea.Cmd {
+	vp := vip()
 	flags := vp.GetString("flags")
-  editor := vp.GetString("editor")
-  pre_run := vp.GetString("pre-run")
+	editor := vp.GetString("editor")
+	// editor := os.Getenv("EDITOR")
+	pre_run := vp.GetString("pre-run")
 
 	if editor == "" {
 		editor = "vim"
@@ -89,11 +95,14 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.list.SetSize(msg.Width-width, msg.Height-height)
 
 	case tea.KeyMsg:
+    vp := vip()
+    quit_key := vp.GetString("quit-key")
+    select_key := vp.GetString("select-key")
 		switch msg.String() {
-		case "q", "escape", "h":
+		case "q", "escape", quit_key:
 			// tea.ClearScreen()
 			return m, tea.Quit
-		case " ", "enter", "l":
+		case " ", "enter", select_key:
 			i, ok := m.list.SelectedItem().(item)
 			if ok {
 				m.choice = string(i.title)
@@ -140,18 +149,7 @@ var (
 		Long:  `Switch smoothly between different file configurations and projects without ever needing to cd into each individual file location`,
 		Run: func(cmd *cobra.Command, args []string) {
 
-			vp := viper.New()
-			vp.SetConfigName("config")
-			vp.SetConfigType("yaml")
-			home, homeErr := os.UserHomeDir()
-			cobra.CheckErr(homeErr)
-
-			vp.AddConfigPath(home + "/.config/flamingo")
-
-			err := vp.ReadInConfig()
-			if err != nil {
-				fmt.Println(err)
-			}
+			vp := vip()
 
 			title := vp.GetString("title")
 			statusbar := vp.GetBool("status-bar")

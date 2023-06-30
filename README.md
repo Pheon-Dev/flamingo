@@ -29,14 +29,16 @@ title: Flamingo
 editor: $EDITOR # ensure to export your editor of choice e.g export EDITOR="nvim"
 flags: "--listen ~/.cache/nvim/server.pipe" # optional, you can leave it empty
 pre-run: "clear &&" # clear screen and run the editor
+quit-keys: "h" # optional quit key, defaults are `escape` and `q`
+select-keys: "l" # optional select key, defaults are `enter` and `space`
 projects:
-  - title:   nvim
+  - title:   nvim
     description: ~/.config/nvim # you can use ~/
-  - title:   dwm
+  - title:   dwm
     description: $HOME/.config/dwm # or $HOME/
-  - title:   alacritty
+  - title:   alacritty
     description: /home/pheon-dev/.config/alacritty # or /
-  - title:   .zshrc
+  - title:   .zshrc
     description: ~/.zshrc
 ```
 - Each project has to have a title and a path description
@@ -59,8 +61,8 @@ flamingo
 
 #### Commands
 - Use `j` and `k` for vertical navigation
-- Use `h` , `q` or `escape` to quit
-- Use `l` , `enter|return` or `space` to select
+- Use `q` or `escape` to quit
+- Use `enter|return` or `space` to select
 - Use `/` to search
 
 ## PRs and Issues
