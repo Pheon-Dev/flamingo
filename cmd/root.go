@@ -23,8 +23,7 @@ var (
 )
 
 type item struct {
-	title string
-
+	title       string
 	description string
 }
 
@@ -45,19 +44,32 @@ func (i item) Description() string {
 }
 
 func (i item) FilterValue() string {
-
 	return i.title
 }
 
-
 func editor(path string) tea.Cmd {
-	ed := os.Getenv("EDITOR")
+	vp := viper.New()
+	vp.SetConfigName("config")
+	vp.SetConfigType("yaml")
+	home, homeErr := os.UserHomeDir()
+	cobra.CheckErr(homeErr)
 
-	if ed == "" {
-		ed = "vim"
+	vp.AddConfigPath(home + "/.config/flamingo")
+
+	err := vp.ReadInConfig()
+	if err != nil {
+		fmt.Println(err)
 	}
 
-	c := exec.Command("bash", "-c", "clear && cd "+path+" && "+ed+" || "+ed+" "+path)
+	flags := vp.GetString("flags")
+  editor := vp.GetString("editor")
+	// editor = os.Getenv("EDITOR")
+
+	if editor == "" {
+		editor = "vim"
+	}
+
+	c := exec.Command("bash", "-c", "clear && cd "+path+" && "+editor+" "+flags+" || "+editor+" "+flags+" "+path)
 	c.Stdin = os.Stdin
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
@@ -148,12 +160,12 @@ var (
 			projects := []list.Item{}
 			for _, p := range ps.([]interface{}) {
 				projects = append(
-          projects,
-          item{
-            title: string(p.(map[string]interface{})["title"].(string)),
-            description: string(p.(map[string]interface{})["description"].(string)),
-          },
-        )
+					projects,
+					item{
+						title:       string(p.(map[string]interface{})["title"].(string)),
+						description: string(p.(map[string]interface{})["description"].(string)),
+					},
+				)
 			}
 
 			l := list.New(projects, list.NewDefaultDelegate(), 0, 0)
