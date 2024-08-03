@@ -18,7 +18,7 @@ go get github.com/Pheon-Dev/flamingo
 ```bash
 ~/.config/flamingo/config.yaml
 ```
-#### Example
+#### Configuration Example
 
 ```yaml
 ---
